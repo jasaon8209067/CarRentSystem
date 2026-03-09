@@ -30,15 +30,15 @@ public class UserService {
     }
 
     //登入
-    public String login(String username, String password){
+    public User login(String username, String password){
         User user = userRepository.findByUsername(username);
         if(user == null){
-            return "帳號不存在";
+            return null;
         }
         if(!passwordEncoder.matches(password, user.getPassword())){
-            return "密碼錯誤";
+            return null;
         }
-        return "登入成功";
+        return user;
     }
 
     public List<User> getAllUsers() {

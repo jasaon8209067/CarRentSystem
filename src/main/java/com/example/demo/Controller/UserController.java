@@ -1,9 +1,11 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.User;
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,21 +16,35 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     //註冊
     @PostMapping("/register")
-    public String register(@RequestBody User user){
-        return userService.register(user);
+    public String register(@RequestBody User user, HttpSession session){
+        String result = userService.register(user);
+
+        if(result.equals("註冊成功")){
+            session.setAttribute("loginUser", user.getUsername());
+        }
+        return result;
     }
 
     //登入
     @PostMapping("/login")
     public String login(@RequestBody User user, HttpSession session){
-        String result = userService.login(user.getUsername(), user.getPassword());
-        if(result.equals("登入成功")){
-            session.setAttribute("loginUser", user.getUsername());
+
+        User loginUser  = userService.login(user.getUsername(), user.getPassword());
+        if(loginUser  == null){
+            return "帳號或密碼錯誤";
         }
-        return result;
+
+        // 存 userId
+        session.setAttribute("loginUserId", loginUser.getId());
+
+        return "登入成功";
     }
 
     //登出

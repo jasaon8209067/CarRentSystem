@@ -17,12 +17,12 @@ public class RentalController {
 
     @PostMapping("/rent/{carId}")
     public String rentCar(@PathVariable Long carId, HttpSession session){
-        String username = (String) session.getAttribute("loginUser");
+        Long userId  = (Long) session.getAttribute("loginUserId");
 
-        if(username == null){
+        if(userId == null){
             return "請先登入";
         }
-        return rentalService.rentCar(carId,username);
+        return rentalService.rentCar(carId,userId);
     }
 
     @PostMapping("/return/{rentalId}")

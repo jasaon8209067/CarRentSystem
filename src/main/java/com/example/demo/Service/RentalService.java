@@ -21,7 +21,7 @@ public class RentalService {
     @Autowired
     private UserRepository userRepository;
 
-    public String rentCar(Long carId, String username){
+    public String rentCar(Long carId, Long userId){
         Car car = carRepository.findById(carId).orElse(null);
         if(car == null){
             return "車輛不存在";
@@ -31,7 +31,11 @@ public class RentalService {
         if(car.getStatus().equals("Rented")){
             return "車輛已被出租";
         }
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findById(userId).orElse(null);
+
+        if(user == null){
+            return "使用者不存在";
+        }
 
         Rental rental = new Rental();
         rental.setCar(car);
