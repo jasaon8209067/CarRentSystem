@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>車輛列表</title>
+</head>
+<body>
+    <h2>所有車輛</h2>
+    <button onclick="loadCars()">取得車輛</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名稱</th>
+                <th>國家</th>
+                <th>狀態</th>
+                <th>租借</th>
+            </tr>
+        </thead>
+
+        <tbody id="carTable"></tbody>
+    </table>
+
+<script>
+
+    function loadCars() {
+        fetch("/api/car/all")
+            .then(res => res.json())
+            .then(data => {
+                let html = ""
+                data.forEach(car => {
+                    html += `<tr>
+                    <td>${car.id}</td>
+                    <td>${car.carName}</td>
+                    <td>${car.country}</td>
+                    <td>${car.status}</td>
+                    <td><button onclick="rent(${car.id})">租車</button></td>
+                    </tr>`;
+                })
+                document.getElementById("carTable").innerHTML = html
+            })
+    }
+
+    function rent(carId) {
+        fetch("/api/rental/rent/" + carId, {
+            method: "POST"
+        })
+            .then(res => res.text())
+            .then(data => {
+                alert(data)
+                loadCar()
+            })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登入</title>
+</head>
+<body>
+    <h2>會員登入</h2>
+    <label>帳號:</label>
+    <input type="text" id="username"><br><br>
+    <label>密碼:</label>
+    <input type="password" id="password"><br><br>
+    <button onclick="login()">登入</button>
+    <button onclick="location.href='register.html'">前往註冊</button>
+
+<script>
+    function login(){
+        const data = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        }
+
+        fetch("/api/user/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        })
+            .then(res => res.text())
+            .then(data=>{
+            alert(data)
+                if(data === "登入成功"){
+                    window.location.href = "car.html"
+                }
+        })
+    }
+</script>
+</body>
+</html>

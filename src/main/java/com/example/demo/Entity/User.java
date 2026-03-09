@@ -1,12 +1,15 @@
 package com.example.demo.Entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "userinfo")
+@Schema(description = "用戶資料模型")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "唯一識別碼", example = "1")
     private Long id;
 
     @Column(nullable=false, unique=true)

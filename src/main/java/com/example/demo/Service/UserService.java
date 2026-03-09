@@ -62,7 +62,7 @@ public class UserService {
         User nowUser = userRepository.findById(id).orElse(null);
         if(nowUser!= null){
             nowUser.setUsername(user.getUsername());
-            nowUser.setPassword(user.getPassword());
+            nowUser.setPassword(passwordEncoder.encode(user.getPassword()));
             nowUser.setEmail(user.getEmail());
             return userRepository.save(nowUser);
         }

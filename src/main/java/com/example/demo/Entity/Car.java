@@ -13,7 +13,7 @@ public class Car {
     private String carNumber;
 
     @Column(nullable = false)
-    private String staus; //available/rented
+    private String status; //available/rented
 
     public Car() {
     }
@@ -23,7 +23,7 @@ public class Car {
         this.carName = carName;
         this.country = country;
         this.carNumber = carNumber;
-        this.staus = "Available";//預設可以租
+        this.status = "Available";//預設可以租
     }
 
     public Long getId() {
@@ -58,9 +58,9 @@ public class Car {
         this.carNumber = carNumber;
     }
 
-    public String getStaus() { return staus; }
+    public String getStatus() { return status; }
 
-    public void setStaus(String staus) {
-        this.staus = staus;
+    public void setStatus(String staus) {
+        this.status = staus;
     }
 }

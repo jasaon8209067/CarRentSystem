@@ -28,7 +28,7 @@ public class RentalService {
         }
 
         //判斷是否已被租借
-        if(car.getStaus().equals("Rented")){
+        if(car.getStatus().equals("Rented")){
             return "車輛已被出租";
         }
         User user = userRepository.findByUsername(username);
@@ -40,7 +40,7 @@ public class RentalService {
         rental.setStatus("Renting");
 
         //更新車的狀態
-        car.setStaus("Rented");
+        car.setStatus("Rented");
         carRepository.save(car);
         rentalRepository.save(rental);
 
@@ -61,7 +61,7 @@ public class RentalService {
         rental.setReturnDate(LocalDate.now());
 
         Car car = rental.getCar();
-        car.setStaus("Available");
+        car.setStatus("Available");
 
         carRepository.save(car);
         rentalRepository.save(rental);
